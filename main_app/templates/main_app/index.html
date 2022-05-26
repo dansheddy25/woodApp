@@ -1,0 +1,91 @@
+{% extends 'main_app/layout/base.html' %}
+{% load static %} 
+{% block content %}
+
+<div class="">
+
+	<div class="row mt-1 pt-1 ">
+		<div class="col-md-12">
+			
+	       	<div class="row  justify-content-center">
+	            <div class="col-lg-4 col-md-6 col-sm-6">
+	                <div class="card card-stats">
+	                  <div class="card-header card-header-default card-header-icon">
+	                    <div class="card-icon">
+	                      <i class="material-icons">weekend</i>
+	                    </div>
+	                    <p class="card-category">Clients</p>
+	                    <h3 class="card-title"> {{total_client}} </h3>
+	                  </div>
+	            	</div>
+	            </div>
+	            <div class="col-lg-4 col-md-6 col-sm-6">
+	                <div class="card card-stats">
+	                  <div class="card-header card-header-warning card-header-icon">
+	                    <div class="card-icon">
+	                      <i class="material-icons">weekend</i>
+	                    </div>
+	                    <p class="card-category">Commandes</p>
+	                    <h3 class="card-title"> {{total_commande}} </h3>
+	                  </div> 
+	                </div>
+	            </div>
+	            <div class="col-lg-4 col-md-6 col-sm-6">
+	                <div class="card card-stats">
+	                  <div class="card-header card-header-rose card-header-icon">
+	                    <div class="card-icon">
+	                      <i class="material-icons">equalizer</i>
+	                    </div>
+	                    <p class="card-category">Personnels</p>
+	                    <h3 class="card-title">{{total_personnel}}</h3>
+	                  </div> 
+	                </div>
+	            </div>
+	            <div class="col-lg-4 col-md-6 col-sm-6">
+	                <div class="card card-stats">
+	                  <div class="card-header card-header-success card-header-icon">
+	                    <div class="card-icon">
+	                      <i class="material-icons">store</i>
+	                    </div>
+	                    <p class="card-category">Produits</p>
+	                    <h3 class="card-title"> {{total_produit}}</h3>
+	                  </div> 
+	                </div>
+	            </div>
+	            <div class="col-lg-4 col-md-6 col-sm-6">
+	                <div class="card card-stats">
+	                  <div class="card-header card-header-info card-header-icon">
+	                    <div class="card-icon">
+	                      <i class="material-icons">equalizer</i>
+	                    </div>
+	                    <p class="card-category"> Machines</p>
+	                    <h3 class="card-title">{{total_machine}} </h3>
+	                  </div> 
+	                </div>
+	            </div>
+	            <div class="col-lg-4 col-md-6 col-sm-6">
+	                <div class="card card-stats">
+	                  <div class="card-header card-header-default card-header-icon">
+	                    <div class="card-icon">
+	                      <i class="material-icons">equalizer</i>
+	                    </div>
+	                    <p class="card-category"> Fournisseurs</p>
+	                    <h3 class="card-title">{{total_fournisseur}} </h3>
+	                  </div> 
+	                </div>
+	            </div>
+	        </div>
+		</div>
+         
+		
+	</div> 
+</div>
+
+
+
+{% endblock %}
+
+
+{% block js_content %}
+
+{% endblock %}

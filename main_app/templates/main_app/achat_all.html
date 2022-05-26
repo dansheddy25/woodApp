@@ -1,0 +1,186 @@
+{% extends 'main_app/layout/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="bg-white mb-5 pb-5 mt-2">
+<div class="row mt-2 pt-2 m-2">
+	<div class="col-sm-8">
+		<h2>Gestion des achats</h2>
+	</div>
+	<div class="col-sm-4">
+		<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#additem"  >Nouvel achat</button>
+	</div>
+</div>	 
+<div class="row justify-content-center m-1    ">
+	 <div class="col-sm-12 table-responsive">
+	 	<table class="table table-bordered">
+		  <thead class="bg-dark text-white">
+		    <tr> 
+		      <!-- <th scope="col">#</th> -->
+		      <th scope="col">Fournisseur   </th>
+		      <th scope="col">Bois   </th>
+		      <th scope="col">Quantité   </th>
+		      <th scope="col">Date   </th>
+		      <th scope="col">Actions</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for item in list_instances %}
+
+		    <tr> 
+		      <td>{{ item.fournisseur.nom_four }}</td>
+		      <td>{{ item.bois.nom }}</td>
+		      <td>{{ item.quantite }}</td> 
+		      <td>{{ item.date_achat }} </td> 
+		      <td>
+				<a href="#" rel="tooltip" class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#edit_item_{{item.id}}" >
+					                    <i class="material-icons">edit</i>
+				</a>
+
+
+					                
+				<button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-round"  onclick="event.preventDefault();
+                              document.getElementById('form_item_{{item.id}}').submit();" >
+					                    <i class="material-icons">close</i>
+				</button>
+					                
+                <form id="form_item_{{item.id}}" action="{% url 'main_app:achat_delete_view' %}" method="POST" style="display: none;">
+                                        {% csrf_token %} 
+                                        <input type="text" hidden class="form-control"  name="data_id" value="{{item.id}}" >
+                </form>      	 
+		      </td> 
+		    </tr> 
+
+
+
+		    <div class="modal fade" id="edit_item_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+					  <div class="modal-dialog modal-lg" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLabel">Modification d'un achat</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					        <form action="{% url 'main_app:achat_edit_view' %}" method="POST" enctype="multipart/form-data" >
+							    {% csrf_token %}  
+
+							    	<div class="row mt-1">
+									
+							    		<div class="col-sm-6">      
+											<div class="form-goup">         
+												<label for="">Fournisseur</label>
+ 													
+													<select class="form-control " data-style="btn btn-link"   name="fournisseur"  required >
+														{% for data in list_fournisseurs %}
+															<option value={{data.id}} {% if data.id == item.fournisseur.id %} selected  {% endif %} > {{data.nom_four}}  </option> 
+														{% endfor %}
+													</select>												
+											</div>
+							    			
+							    		</div>
+							    		<div class="col-sm-6">      
+											<div class="form-goup">         
+												<label for="">Bois</label>
+ 													
+													<select class="form-control " data-style="btn btn-link"   name="bois"  required >
+														{% for data in list_bois %}
+															<option value={{data.id}} {% if data.id == item.bois.id %} selected  {% endif %} > {{data.nom}}  </option> 
+														{% endfor %}
+													</select>												
+											</div>
+							    			
+							    		</div>
+							    		<div class="col-sm-6">
+							                  <label class="form-control-label">Quantité</label> 
+							                <div class="form-group">
+ 													<input type="numeric" name="id" hidden class="form-control" value="{{item.id}}">
+ 													<input type="numeric" name="quantite" class="form-control" value="{{item.quantite}}"> 
+							                </div>
+							    			
+							    		</div>
+							    		<div class="col-sm-6">
+							                  <label class="form-control-label">Date d'achat</label> 
+							                <div class="form-group">
+ 													<input type="text" name="date_achat" class="form-control datepicker" value="{{item.date_achat}}"> 
+							                </div>							    			
+							    		</div>										 
+							    		   
+							    	</div>  
+							    <div class="row mt-1 pt-1">
+							    	<div class="col-sm-4">
+							    		
+					        			<button type="submit" class="btn btn-info">Enregistrer</button>
+							    	</div>
+							    </div>
+
+
+							</form>
+					      </div> 
+					    </div>
+					  </div>
+					</div>
+
+		    {% endfor %}
+		  </tbody>
+		</table>
+	 </div> 
+
+</div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="additem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ajout d'un achat</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'main_app:achat_view' %}" method="POST" enctype="multipart/form-data" >
+		    {% csrf_token %} 
+
+		    	<div class="row mt-1">
+
+		    {% for field in form  %}
+
+		    		<div class="col-sm-6">
+		                  <label class="form-control-label">{{ field.label }}</label> 
+		                <div class="form-group">
+
+		                    {{ field  }}
+		                    <div class="{% if field.errors %} invalid{% endif %}">
+		                      {% for error in field.errors %}
+		                      <p class="help-block">{{ error }}</p>
+		                      {% endfor %}
+		                    </div> 
+		                </div>
+		    			
+		    		</div>
+		    {% endfor %} 
+		    	</div> 
+		    <div class="row mt-1 pt-1">
+		    	<div class="col-sm-4">
+		    		
+        			<button type="submit" class="btn btn-info">Enregistrer</button>
+		    	</div>
+		    </div>
+
+
+		</form>
+      </div> 
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

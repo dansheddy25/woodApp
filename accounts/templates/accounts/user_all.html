@@ -1,0 +1,92 @@
+{% extends 'main_app/layout/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="bg-white mb-5 pb-5 mt-2">
+<div class="row mt-2 pt-2 m-2">
+	<div class="col-sm-8">
+		<h2>Gestion des Utilisateurs</h2>
+	</div>
+	<div class="col-sm-4">
+		<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#additem"  >Nouvel Utilisateur</button>
+	</div>
+</div>	 
+<div class="row justify-content-center m-1    ">
+	 <div class="col-sm-12 table-responsive">
+	 	<table class="table table-bordered">
+		  <thead class="bg-dark text-white">
+		    <tr> 
+		      <!-- <th scope="col">#</th> -->
+		      <th scope="col">Nom & Prénom   </th>
+		      <th scope="col">Email   </th>
+		      <th scope="col" class="text-right">Actions</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for item in list_instances %}
+
+		    <tr> 
+		      <td>{{ item.last_name }}  {{ item.first_name }}</td>
+		      <td>{{ item.email }}</td>
+		      <td class="text-right">
+				{% comment %} <a href="#" rel="tooltip" class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#edit_item_{{item.id}}" >
+					                    <i class="material-icons">edit</i>
+				</a> {% endcomment %}
+
+
+					                
+				<button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-round"  onclick="event.preventDefault();
+                              document.getElementById('form_item_{{item.id}}').submit();" >
+					                    <i class="material-icons">close</i>
+				</button>
+					                
+                <form id="form_item_{{item.id}}" action="{% url 'accounts:user_delete_view' %}" method="POST" style="display: none;">
+                                        {% csrf_token %} 
+                                        <input type="text" hidden class="form-control"  name="data_id" value="{{item.id}}" >
+                </form>      	 
+		      </td> 
+		    </tr>  
+
+		    {% endfor %}
+		  </tbody>
+		</table>
+	 </div> 
+
+</div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="additem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ajout d'un utilisateur</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'accounts:user_view' %}" method="POST"  >
+		    {% csrf_token %}                 
+            {{ form|crispy }}
+		    <div class="row mt-1 pt-1">
+		    	<div class="col-sm-4">
+		    		
+        			<button type="submit" class="btn btn-info">Enregistrer</button>
+		    	</div>
+		    </div>
+
+
+		</form>
+      </div> 
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
